@@ -1,0 +1,19 @@
+{
+    "name": "imrancse/passportgrant",
+    "description": "Custom grant_type for laravel passport",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Imran Hossain",
+            "email": "imrancse94@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "imrancse\\passportgrant\\": "src/"
+        }
+    }
+}

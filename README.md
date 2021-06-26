@@ -100,7 +100,7 @@ class OTPGrantProvider extends UserProvider
 
         // Here insert your logic to retrieve user entity instance
 
-        // For example, let's assume that users table has "acme_id" column
+        // For example, let's assume that users table has "email" column
         $user = User::where('email', $inputs['email'])->first();
 
         return $user;

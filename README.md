@@ -5,7 +5,7 @@ Note: this documentation assumes [Laravel Passport installation](https://laravel
 To get started, install package via the Composer package manager :
 
 ```bash
-composer require imrancse\passportgrant
+composer require imrancse/passportgrant
 ```
 
 Publish the `passport_grant_type.php` configuration file using `vendor:publish` Artisan command :

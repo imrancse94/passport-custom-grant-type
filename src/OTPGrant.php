@@ -13,7 +13,7 @@ use League\OAuth2\Server\ResponseTypes\ResponseTypeInterface;
 use Laravel\Passport\Bridge\User;
 use Psr\Http\Message\ServerRequestInterface;
 
-class OtpGrant extends AbstractGrant
+class OTPGrant extends AbstractGrant
 {
     
      protected $grantType;

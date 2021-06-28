@@ -43,7 +43,7 @@ class PassportGrantServiceProvider extends ServiceProvider
     {
         $grants = $this->app->config->get('passport_grant_type.grants', []);
         foreach ($grants as $grantType => $userProviderClass) {
-            $grant = new OtpGrant(
+            $grant = new OTPGrant(
                $grantType,
                $this->app->make($userProviderClass),
                $this->app->make(RefreshTokenRepository::class)

@@ -33,9 +33,12 @@ class PassportGrantServiceProvider extends ServiceProvider
             __DIR__.'/../config/passport_grant_type.php' => $this->app->configPath().'/passport_grant_type.php',
         ], 'config');
         
-        app(AuthorizationServer::class)->enableGrantType(
-            $this->makeOtpGrant(), Passport::tokensExpireIn()
-        );
+        $makeGrant = $this->makeOtpGrant();
+        if(!is_null($makeGrant)){
+            app(AuthorizationServer::class)->enableGrantType(
+                 $makeGrant, Passport::tokensExpireIn()
+            );
+        }
     }
     
     

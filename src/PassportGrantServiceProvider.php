@@ -41,6 +41,7 @@ class PassportGrantServiceProvider extends ServiceProvider
     
     protected function makeOtpGrant()
     {
+        $grant = null;
         $grants = $this->app->config->get('passport_grant_type.grants', []);
         foreach ($grants as $grantType => $userProviderClass) {
             $grant = new OTPGrant(

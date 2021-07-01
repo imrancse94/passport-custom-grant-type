@@ -10,10 +10,19 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "laravel/passport": "^9.0"
+    },
     "autoload": {
         "psr-4": {
             "imrancse\\passportgrant\\": "src/"
         }
-    }
+    },
+    "extra": {
+      "laravel": {
+          "providers": [
+              "imrancse\\passportgrant\\PassportGrantServiceProvider"
+          ]
+      }
+  }
 }

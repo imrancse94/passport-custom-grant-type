@@ -50,7 +50,10 @@ class PassportGrantServiceProvider extends ServiceProvider
                $this->app->make(RefreshTokenRepository::class)
             );
         }
-        $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
+        
+        if(!is_null($grant)){
+            $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
+        }
 
         return $grant;
     }

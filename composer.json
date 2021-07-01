@@ -22,7 +22,10 @@
       "laravel": {
           "providers": [
               "imrancse\\passportgrant\\PassportGrantServiceProvider"
-          ]
+          ],
+          "aliases": {
+            "PassportGrant": "imrancse\\passportgrant\\PassportGrantServiceProvider"
+        }
       }
   }
 }

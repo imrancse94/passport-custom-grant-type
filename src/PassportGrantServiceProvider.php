@@ -61,7 +61,7 @@ class PassportGrantServiceProvider extends ServiceProvider
         if(empty($refresh_token['lifetime'])){
             $refresh_token['lifetime'] = 90;
         }
-        if(!is_null($grant) && !empty($refresh_token['lifetime'])){
+        if(!is_null($grant)){
             $grant->setRefreshTokenTTL(Carbon::now()->diff(now()->addDays($refresh_token['lifetime'])));
         }
 

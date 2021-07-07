@@ -35,7 +35,10 @@ class PassportGrantServiceProvider extends ServiceProvider
         
         $makeGrant = $this->makeOtpGrant();
         $access_token = $this->app->config->get('passport_grant_type.access_token', []);
-        if(!is_null($makeGrant) && !empty($access_token['lifetime'])){
+        if(empty($access_token['lifetime'])){
+            $access_token['lifetime'] = 1;
+        }
+        if(!is_null($makeGrant)){
             app(AuthorizationServer::class)->enableGrantType(
                  $makeGrant, Carbon::now()->diff(now()->addHours($access_token['lifetime']))
             );
@@ -55,6 +58,9 @@ class PassportGrantServiceProvider extends ServiceProvider
             );
         }
         $refresh_token = $this->app->config->get('passport_grant_type.refresh_token', []);
+        if(empty($refresh_token['lifetime'])){
+            $refresh_token['lifetime'] = 90;
+        }
         if(!is_null($grant) && !empty($refresh_token['lifetime'])){
             $grant->setRefreshTokenTTL(Carbon::now()->diff(now()->addDays($refresh_token['lifetime'])));
         }

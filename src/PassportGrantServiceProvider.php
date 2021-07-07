@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Bridge\RefreshTokenRepository;
 use Laravel\Passport\Passport;
 use League\OAuth2\Server\AuthorizationServer;
-
+use Carbon\Carbon;
 class PassportGrantServiceProvider extends ServiceProvider
 {
     /**
@@ -34,9 +34,10 @@ class PassportGrantServiceProvider extends ServiceProvider
         ], 'config');
         
         $makeGrant = $this->makeOtpGrant();
+        $access_token = $this->app->config->get('passport_grant_type.access_token', []);
         if(!is_null($makeGrant)){
             app(AuthorizationServer::class)->enableGrantType(
-                 $makeGrant, Passport::tokensExpireIn()
+                 $makeGrant, Carbon::now()->diff(now()->addHours($access_token['lifetime']))
             );
         }
     }
@@ -55,7 +56,8 @@ class PassportGrantServiceProvider extends ServiceProvider
         }
         
         if(!is_null($grant)){
-            $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
+            $refresh_token = $this->app->config->get('passport_grant_type.refresh_token', []);
+            $grant->setRefreshTokenTTL(Carbon::now()->diff(now()->addDays($refresh_token['lifetime'])));
         }
 
         return $grant;

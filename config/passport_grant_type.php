@@ -15,5 +15,13 @@ return [
     'grants' => [
         // 'otp_grant' => 'App\Passport\OTPGrantProvider',
     ],
+    
+    'access_token' =>[
+        'lifetime' => 1 // In hour
+    ],
+    
+    'refresh_token' =>[
+        'lifetime' => 90 // In days
+    ]
 
 ];

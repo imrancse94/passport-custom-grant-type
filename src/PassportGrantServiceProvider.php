@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Bridge\RefreshTokenRepository;
 use Laravel\Passport\Passport;
 use League\OAuth2\Server\AuthorizationServer;
+use League\OAuth2\Server\Grant\RefreshTokenGrant;
 use Carbon\Carbon;
 class PassportGrantServiceProvider extends ServiceProvider
 {
@@ -43,8 +44,23 @@ class PassportGrantServiceProvider extends ServiceProvider
                  $makeGrant, Carbon::now()->diff(now()->addHours($access_token['lifetime']))
             );
         }
+        
+        app(AuthorizationServer::class)->enableGrantType(
+            $this->makeRefreshTokenGrant(), Carbon::now()->diff(now()->addHours($access_token['lifetime']))
+        );
     }
     
+    private function makeRefreshTokenGrant()
+    {
+        $repository = $this->app->make(RefreshTokenRepository::class);
+        return tap(new RefreshTokenGrant($repository), function ($grant) {
+            $refresh_token = $this->app->config->get('passport_grant_type.refresh_token', []);
+            if(empty($refresh_token['lifetime'])){
+                $refresh_token['lifetime'] = 90;
+            }
+            $grant->setRefreshTokenTTL(Carbon::now()->diff(now()->addDays($refresh_token['lifetime'])));
+        });
+    }
     
     protected function makeOtpGrant()
     {
@@ -61,7 +77,7 @@ class PassportGrantServiceProvider extends ServiceProvider
         if(empty($refresh_token['lifetime'])){
             $refresh_token['lifetime'] = 90;
         }
-        if(!is_null($grant)){
+        if(!is_null($grant) && !empty($refresh_token['lifetime'])){
             $grant->setRefreshTokenTTL(Carbon::now()->diff(now()->addDays($refresh_token['lifetime'])));
         }
 

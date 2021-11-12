@@ -41,12 +41,12 @@ class PassportGrantServiceProvider extends ServiceProvider
         }
         if(!is_null($makeGrant)){
             app(AuthorizationServer::class)->enableGrantType(
-                 $makeGrant, Carbon::now()->diff(now()->addHours($access_token['lifetime']))
+                 $makeGrant, Carbon::now()->diff(Carbon::now()->addHours($access_token['lifetime']))
             );
         }
         
         app(AuthorizationServer::class)->enableGrantType(
-            $this->makeRefreshTokenGrant(), Carbon::now()->diff(now()->addHours($access_token['lifetime']))
+            $this->makeRefreshTokenGrant(), Carbon::now()->diff(Carbon::now()->addHours($access_token['lifetime']))
         );
     }
     
@@ -58,7 +58,7 @@ class PassportGrantServiceProvider extends ServiceProvider
             if(empty($refresh_token['lifetime'])){
                 $refresh_token['lifetime'] = 90;
             }
-            $grant->setRefreshTokenTTL(Carbon::now()->diff(now()->addDays($refresh_token['lifetime'])));
+            $grant->setRefreshTokenTTL(Carbon::now()->diff(Carbon::now()->addDays($refresh_token['lifetime'])));
         });
     }
     
@@ -78,7 +78,7 @@ class PassportGrantServiceProvider extends ServiceProvider
             $refresh_token['lifetime'] = 90;
         }
         if(!is_null($grant) && !empty($refresh_token['lifetime'])){
-            $grant->setRefreshTokenTTL(Carbon::now()->diff(now()->addDays($refresh_token['lifetime'])));
+            $grant->setRefreshTokenTTL(Carbon::now()->diff(Carbon::now()->addDays($refresh_token['lifetime'])));
         }
 
         return $grant;
